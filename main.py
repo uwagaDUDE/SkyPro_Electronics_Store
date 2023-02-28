@@ -94,20 +94,16 @@ class Item:
     def is_integer(numeric):
         return isinstance(numeric, int)
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}("{self._item_name}, {self.item_price}, {self.item_value}")'
+
+    def __str__(self):
+        return f'{self._item_name}'
+
 if __name__ == '__main__':
 
     item = Item('Телефон', 10000, 5)
-    item.item_name = 'Смартфон'
-    print(item._item_name)
-    item.item_name = 'Doesnt_work'
 
-    csv_items = item.csv_items_load()
-
-    #Длина списка с предметами идет с учетом выше упомянутого предмета, то-есть их будет 6
-    print(len(item.items))
-    print(item.csv_name[0])
-    print(item.is_integer(5))
-    print(item.is_integer(5.5))
 
 
 

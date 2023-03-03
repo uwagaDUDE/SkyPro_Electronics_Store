@@ -1,5 +1,6 @@
 import csv
 class Item:
+
     items = []
     item_discount = 0
     csv_name = []

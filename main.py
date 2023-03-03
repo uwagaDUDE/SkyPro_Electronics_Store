@@ -100,10 +100,48 @@ class Item:
     def __str__(self):
         return f'{self._item_name}'
 
+    def __add__(self, other):
+        if isinstance(other, Item) or isinstance(other, Phone):
+            return self.item_value + other.item_value
+        else:
+            raise Exception(f'Не возможно сложить. Попробуйте Phone и Item!')
+
+class Phone(Item):
+
+    def __init__(self, item_name, item_price, item_value, sim_cards, currency=''):
+        super().__init__(item_name, item_price, item_value, currency)
+        self.sim_cards = sim_cards
+        self.sim_cards_error()
+
+    def sim_cards_error(self):
+        if self.sim_cards <= 0:
+            raise Exception(f'Количество слотов для сим-карт не может быть меньше 1')
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}("{self._item_name}, ' \
+               f'{self.item_price}, {self.item_value}, ' \
+               f'{self.sim_cards}, {self.currency}")'
+
+class TestItem(Item):
+    """
+    Тестовый класс для проверки сложения между Item и другими классами
+    Имея наследование от Item, передается __add__, пришлось добавить его сюда, чтобы изменить его параметры
+    При сложении с Phone или Item - возвращает None
+    """
+    def __add__(self, other):
+        pass
+
+
 if __name__ == '__main__':
 
     item = Item('Телефон', 10000, 5)
-
+    phone = Phone('iPhone 14', 100000, 7, 1, 'руб')
+    test_item = TestItem('Test', 1, 27, 'RUB')
+    print(phone)
+    print(repr(phone))
+    print(item+phone)
+    print(test_item+item)
+    print(test_item+phone)
 
 
 

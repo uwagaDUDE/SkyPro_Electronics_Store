@@ -27,7 +27,6 @@ class Item:
     def item_name(self):
         return self._item_name
 
-    #Если честно, я не совсем понял как это вообще работает)) Я что то написал, а почему оно работает я хз)
     @item_name.setter
     def item_name(self, item_name):
         if self.len_item_name_check(item_name):
@@ -136,6 +135,7 @@ class TestItem(Item):
 if __name__ == '__main__':
 
     item = Item('Телефон', 10000, 5)
+    item.item_name = '123'
     phone = Phone('iPhone 14', 100000, 7, 1, 'руб')
     test_item = TestItem('Test', 1, 27, 'RUB')
     print(phone)

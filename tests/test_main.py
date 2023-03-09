@@ -2,6 +2,7 @@ import pytest
 from main import Item
 from main import TestItem
 from main import Phone
+from main import KeyBoard
 
 
 def test_add_method_with_test_item():
@@ -32,6 +33,7 @@ def test_class_sum():
 
 
 def test_csv_load_system():
+
     Item().csv_items_load()
     assert Item().csv_value[1] == '3'
     assert Item().csv_name[0] == 'Смартфон'
@@ -39,6 +41,7 @@ def test_csv_load_system():
 
 
 def test_output_methods():
+
     item1 = Item('Test1', 10, 5, 'USD')
     # Почему то выдает ошибку - Item("Test1, 10, 5") != Item("Test1, 10, 5")
     with pytest.raises(AssertionError):
@@ -49,6 +52,18 @@ def test_output_methods():
     assert item1.discount_price() == 'С учетом скидки, стоимость test1 составляет: 10.0 USD'
 
 def test_is_integer():
+
     item = Item()
     assert item.is_integer(10) == True
     assert item.is_integer('test') == False
+
+def test_keyboard():
+
+    kb = KeyBoard('Test', 1, 1)
+    assert kb.language_choose == ['RU', 'ENG']
+    assert str(kb) == 'Test'
+    assert kb.language == 'RU'
+    kb.change_lang()
+    assert kb.language == 'ENG'
+    with pytest.raises(Exception):
+        kb.language = 'CH'

@@ -122,6 +122,26 @@ class Phone(Item):
                f'{self.item_price}, {self.item_value}, ' \
                f'{self.sim_cards}, {self.currency}")'
 
+class KeyBoard(Item):
+
+    language_choose = ['RU','ENG']
+    _language = 'RU'
+
+    def change_lang(self):
+        self.language_choose.reverse()
+        self._language = self.language_choose[0]
+
+    @property
+    def language(self):
+        return self._language
+
+    @language.setter
+    def language(self, language):
+        if language:
+            raise Exception('Менять язык можно только с помощью функции!')
+        else:
+            self._language = language
+
 class TestItem(Item):
     """
     Тестовый класс для проверки сложения между Item и другими классами
@@ -134,15 +154,28 @@ class TestItem(Item):
 
 if __name__ == '__main__':
 
-    item = Item('Телефон', 10000, 5)
-    item.item_name = '123'
-    phone = Phone('iPhone 14', 100000, 7, 1, 'руб')
-    test_item = TestItem('Test', 1, 27, 'RUB')
-    print(phone)
-    print(repr(phone))
-    print(item+phone)
-    print(test_item+item)
-    print(test_item+phone)
+    kb = KeyBoard('Dark KD87A', 9600, 5)
+    print(kb)
+    print(kb.language)
+    kb.change_lang()
+    print(kb.language)
+    kb.change_lang()
+    print(kb.language)
+    kb.change_lang()
+    print(kb.language)
+    kb.change_lang()
+    print(kb.language)
+    kb.language = 'CH'
+
+    # item = Item('Телефон', 10000, 5)
+    # item.item_name = '123'
+    # phone = Phone('iPhone 14', 100000, 7, 1, 'руб')
+    # test_item = TestItem('Test', 1, 27, 'RUB')
+    # print(phone)
+    # print(repr(phone))
+    # print(item+phone)
+    # print(test_item+item)
+    # print(test_item+phone)
 
 
 

@@ -75,20 +75,41 @@ class Item:
 
     def csv_items_load(self):
 
-        with open('items.csv', newline='') as csv_items:
-            csv_reader = csv.reader(csv_items)
-            for items_csv in csv_reader:
-                #Пропускаем первую строку
-                if 'name' in items_csv:
-                    continue
-                self.csv_name.append(items_csv[0])
-                for i in self.csv_name:
-                    if len(i) > 10:
-                        self.len_item_name_error(i)
-                self.csv_price.append(items_csv[1])
-                self.csv_value.append(items_csv[2])
-                self.items.append(f'Название: {items_csv[0]}, цена: {items_csv[1]}, количество: {items_csv[2]}')
-            return 'Items loaded' #Для теста
+        tables_check = ['name', 'price', 'quantity']
+
+        try:
+
+            with open('items.csv', newline='') as csv_items:
+                csv_reader = csv.reader(csv_items)
+
+                for x in csv_reader:
+                    for k in x:
+                        #Проверяем наличие столбца в списке столбцов tables_check
+                        if k not in tables_check:
+                            raise InstantiateCSVError
+
+                        for tables in tables_check:
+                            #Проверяем наличие столбцов из tables_check в файле, чтобы небыло лишних, и недостающих
+                            if tables not in x:
+                                raise InstantiateCSVError
+                    break
+
+                for items_csv in csv_reader:
+                    #Пропускаем первую строку
+                    if 'name' in items_csv:
+                        continue
+                    self.csv_name.append(items_csv[0])
+
+                    for i in self.csv_name:
+                        if len(i) > 10:
+                            self.len_item_name_error(i)
+                    self.csv_price.append(items_csv[1])
+                    self.csv_value.append(items_csv[2])
+                    self.items.append(f'Название: {items_csv[0]}, цена: {items_csv[1]}, количество: {items_csv[2]}')
+                return 'Items loaded' #Для теста
+
+        except FileNotFoundError:
+            raise FileNotFoundError('Отсутствует файл item.csv')
 
     @staticmethod
     def is_integer(numeric):
@@ -156,22 +177,26 @@ class TestItem(Item):
     def __add__(self, other):
         pass
 
+class InstantiateCSVError(Exception):
+    def __str__(self):
+        return 'Файл item.csv поврежден'
 
 if __name__ == '__main__':
 
-    kb = KeyBoard('Dark KD87A', 9600, 5)
-    print(kb)
-    print(kb.language)
-    kb.change_lang()
-    print(kb.language)
-    kb.change_lang()
-    print(kb.language)
-    kb.change_lang()
-    print(kb.language)
-    kb.change_lang()
-    print(kb.language)
-    #kb.language = 'CH'
-
+    # kb = KeyBoard('Dark KD87A', 9600, 5)
+    # print(kb)
+    # print(kb.language)
+    # kb.change_lang()
+    # print(kb.language)
+    # kb.change_lang()
+    # print(kb.language)
+    # kb.change_lang()
+    # print(kb.language)
+    # kb.change_lang()
+    # print(kb.language)
+    # #kb.language = 'CH'
+    Item().csv_items_load()
+    print(Item().csv_name[0])
     # item = Item('Телефон', 10000, 5)
     # item.item_name = '123'
     # phone = Phone('iPhone 14', 100000, 7, 1, 'руб')

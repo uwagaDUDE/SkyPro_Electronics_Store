@@ -122,7 +122,7 @@ class Phone(Item):
                f'{self.item_price}, {self.item_value}, ' \
                f'{self.sim_cards}, {self.currency}")'
 
-class KeyBoard(Item):
+class ChangeLanguage:
 
     language_choose = ['RU','ENG']
     _language = 'RU'
@@ -141,6 +141,11 @@ class KeyBoard(Item):
             raise Exception('Менять язык можно только с помощью функции!')
         else:
             self._language = language
+
+class KeyBoard(Item, ChangeLanguage):
+    def __init__(self, name, price, quality) -> None:
+        super().__init__(name, price, quality)
+        ChangeLanguage.__init__(self)
 
 class TestItem(Item):
     """
@@ -165,7 +170,7 @@ if __name__ == '__main__':
     print(kb.language)
     kb.change_lang()
     print(kb.language)
-    kb.language = 'CH'
+    #kb.language = 'CH'
 
     # item = Item('Телефон', 10000, 5)
     # item.item_name = '123'
